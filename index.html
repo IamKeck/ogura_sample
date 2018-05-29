@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Jazz Trumpeter 小倉直也</title>
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            color: #e7f3dfb3;
+        }
+        #background{
+            background-image: url("./background.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position:center;
+            height:100vh;
+            width:100vw;
+        }
+        #global_menu{
+            display: flex;
+            justify-content: flex-end;
+            padding-right:10%;
+            background-color: #2e4a5399;
+            height: 8vh;
+        }
+        #global_menu li{
+            width: 100px;
+            padding: 20px;
+            color: #e7f3dfb3;
+            font-weight: 900;
+            cursor: pointer;
+            text-align: center;
+            line-height: 130%;
+        }
+        #global_menu li:hover{
+            background-color: gray;
+            opacity: 0.8;
+        }
+        #contact{
+            position: absolute;
+            font-size:30px;
+            bottom: 10%;
+            left: 10%;
+        }
+        #contact h1{
+            margin-bottom: 30px;
+        }
+        #live_info{
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+            font-size:30px;
+        }
+        #live_info h1{
+            margin-bottom:30px;
+        }
+        #title{
+            font-family: "dosis";
+            font-size: 85px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translateY(-50%) translateX(-50%);
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+    </style>
+</head>
+<body>
+<div id="background">
+    <nav>
+        <ul id="global_menu">
+            <li>About</li>
+            <li>Contact</li>
+            <li>Live</li>
+            <li>Discography</li>
+        </ul>
+    </nav>
+    <div id="title">
+        Jazz Trumpeter<br>
+        Naoya Ogura
+    </div>
+    <div id="contact">
+        <h1>Contact</h1>
+        <p>Email: sample@example.com</p>
+    </div>
+    <div id="live_info">
+        <h1>NEXT LIVE</h1>
+        <p>
+            X/XX(日) 20:00〜<br>
+            Charge ¥2000
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
