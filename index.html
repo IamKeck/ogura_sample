@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Jazz Trumpeter 小倉直也</title>
+    <title>Jazz Trumpet Player 小倉直也</title>
     <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <style>
@@ -68,6 +68,7 @@
             font-size: 40px;
         }
         #next_live{
+            display: block;
             position:absolute;
             bottom:8%;
             right:8%;
@@ -81,6 +82,23 @@
         }
         #second_page{
             background-image: url("./background2.jpg");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #live_article{
+            padding:30px;
+            background-color: black;
+            opacity: 0.6;
+            color: white;
+            height: 75%;
+            width: 75%;
+            font-size:20px;
+            line-height:1.5;
+            background-image: url("./next_live2.png");
+            background-position: right 60px top 60px;
+            background-repeat: no-repeat;
         }
 
     </style>
@@ -99,10 +117,35 @@
         <h2>Jazz Trumpet Player</h2>
         <h1>Naoya Ogura</h1>
     </div>
-    <div id="next_live">
-    </div>
+    <a id="next_live" href="#second_page">
+    </a>
 </div>
-<div class="page" id="second_page"></div>
+<div class="page" id="second_page">
+    <div id="live_article">
+        9/19(Tue)<br />
+        【ワンマンライブ！！！！】<br />
+        @三宮100BAN HALL (Open 18:30 / Start 19:00)<br />
+        出演<br />
+        小倉直也セプテット<br />
+        磯野展輝(tb)<br />
+        小原加奈梨(as)<br />
+        曽我部泰紀(ts)<br />
+        永武幹子(pf)<br />
+        荒井一喜(ba)<br />
+        今岡稜太(dr)<br />
+        小倉直也(tp)<br />
+<br />
+        ワンマンライブをさせていただきます！！今回も大好きなステージ、<br />
+        100BAN HALLにて！！何と言っても大学時代からの友人でもあり、<br />
+        現在東京で引っ張りだこの超多忙ピアニスト永武幹子が弾きこなす<br />
+        スタインウェイの音色も聞き逃して欲しくはないです！<br />
+        神戸ではなかなか聞けないので本当に必聴です！<br />
+        この日は学割・予約割も設けさせていただいておりますので、<br />
+        できるだけ多くの皆さんに聞いていただきたいです！<br />
+        今の僕の出せる全力をよろしければ是非見に来てください！！ <br />
+    </div>
+
+</div>
 
 </body>
 </html>
