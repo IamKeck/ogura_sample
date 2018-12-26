@@ -59,19 +59,17 @@
         }
         #title{
             position: absolute;
-            top: 43%;
-            left: 25%;
-            -webkit-transform: translateY(-50%) translateX(-50%);
-            transform: translateY(-50%) translateX(-50%);
+            top: 40%;
+            left: 12%;
         }
         #title h1{
-            font-size: 75px;
+            font-size: 80px;
             font-family: "Noto Sans JP";
             font-weight: 700;
         }
         #title h2{
             font-size: 35px;
-            letter-spacing: 4px;
+            letter-spacing: 7px;
             text-align: center;
             font-family: "Noto Sans JP";
             font-weight: 700;
@@ -110,21 +108,84 @@
             background-repeat: no-repeat;
         }
 
+        #news{
+            padding-top: 30px;
+            padding-left: 55px;
+            padding-bottom: 20px;
+        }
+
+        .whats_new{
+            padding-bottom: 25px;
+        }
+
+        .date {
+            display:inline-block;
+        }
+        .article {
+            display:inline-block;
+            padding-left: 30px;
+        }
+
+        .news_item {
+            padding-bottom: 20px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
 <div id="background" class="page">
     <nav>
         <ul id="global_menu">
-            <li>About</li>
-            <li>Contact</li>
-            <li>Live</li>
-            <li>Discography</li>
+            <li>HOME</li>
+            <li>NEWS</li>
+            <li>ABOUT</li>
+            <li>CONTACT</li>
+            <li>LIVE</li>
+            <li>DISCOGRAPHY</li>
         </ul>
     </nav>
     <div id="title">
         <h2>JAZZ TRUMPET PLAYER</h2>
         <h1>NAOYA OGURA</h1>
+        <div id="news">
+            <p class="whats_new">What's New</p>
+            <ul>
+                <li class="news_item">
+                    <p class="date">
+                        2018/10/1
+                    </p>
+                    <p class="article">
+                        テスト記事1
+                    </p>
+                </li>
+                <li class="news_item">
+                    <p class="date">
+                        2018/10/2
+                    </p>
+                    <p class="article">
+                        テスト記事2
+                    </p>
+                </li>
+                <li class="news_item">
+                    <p class="date">
+                        2018/10/3
+                    </p>
+                    <p class="article">
+                        テスト記事3
+                    </p>
+                </li>
+                <li class="news_item">
+                    <p class="date">
+                        2018/10/4
+                    </p>
+                    <p class="article">
+                        テスト記事4
+                    </p>
+                </li>
+            </ul>
+
+        </div>
     </div>
     <a id="next_live" class="animated infinite bounce" href="#second_page">
     </a>
