@@ -155,44 +155,7 @@
     <div id="title">
         <h2>JAZZ TRUMPET PLAYER</h2>
         <h1>NAOYA OGURA</h1>
-        <div id="news">
-            <p class="whats_new">What's New?</p>
-            <ul>
-                <li class="news_item">
-                    <p class="date">
-                        2018/10/1
-                    </p>
-                    <p class="article">
-                        テスト記事1
-                    </p>
-                </li>
-                <li class="news_item">
-                    <p class="date">
-                        2018/10/2
-                    </p>
-                    <p class="article">
-                        テスト記事2
-                    </p>
-                </li>
-                <li class="news_item">
-                    <p class="date">
-                        2018/10/3
-                    </p>
-                    <p class="article">
-                        テスト記事3
-                    </p>
-                </li>
-                <li class="news_item">
-                    <p class="date">
-                        2018/10/4
-                    </p>
-                    <p class="article">
-                        テスト記事4
-                    </p>
-                </li>
-            </ul>
-
-        </div>
+        <div id="news"></div>
     </div>
     <a id="next_live" class="animated infinite bounce" href="#second_page">
     </a>
@@ -223,11 +186,13 @@
     </div>
 
 </div>
+<script src="dist/blog.js"></script>
 <script>
     // smooth scroll https://github.com/cferdinandi/smooth-scroll
     var scroll = new SmoothScroll('a[href*="#"]', {
         speed: 1000
     });
+    var app = Elm.Blog.init({node: document.getElementById("news"), flags: ""});
 </script>
 </body>
 </html>
