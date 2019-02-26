@@ -1,8 +1,10 @@
 module Blog exposing (Article, Flag, Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser exposing (element)
-import Html exposing (Html, div, li, p, text, ul, a)
-import Html.Attributes exposing (class, id, href)
+import Browser.Navigation exposing (load)
+import Html exposing (Html, div, li, p, text, ul)
+import Html.Attributes exposing (class, id)
+import Html.Events exposing (onClick)
 import Xml.Decode as XD
 import Http
 import Debug
@@ -24,6 +26,7 @@ type alias Flag =
 
 type Msg
     = GotArticles (Result Http.Error String)
+    | MoveTo String
 
 -- TODO: UTC -> JST
 isoTimeToDate : String -> String
@@ -79,9 +82,9 @@ view model =
     div [ id "news" ]
         [ p [ class "whats_new" ] [ text "What's New?" ]
         , ul [] <| List.map (\article ->
-            li [ class "news_item" ]
+            li [ class "news_item", onClick <| MoveTo article.url ]
                 [ p [ class "date" ] [ text article.date ]
-                , p [ class "article" ] [ a [ href article.url ] [text article.title] ]
+                , p [ class "article" ] [ text article.title ]
                 ]
             ) model
         ]
@@ -94,6 +97,7 @@ update msg model = case msg of
         Ok xml -> case XD.run articleListParser (Debug.log "got xml" xml) of
             Err e -> Debug.log (Debug.toString e) (model, Cmd.none)
             Ok articles -> (articles, Cmd.none)
+    MoveTo url -> (model, load url)
 
 
 
