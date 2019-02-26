@@ -7,7 +7,6 @@ import Html.Attributes exposing (class, id)
 import Html.Events exposing (onClick)
 import Xml.Decode as XD
 import Http
-import Debug
 import Iso8601 exposing (toTime)
 import Time
 
@@ -85,9 +84,9 @@ view model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model = case msg of
     GotArticles r -> case r of
-        Err e -> Debug.log (Debug.toString e) (model, Cmd.none)
-        Ok xml -> case XD.run articleListParser (Debug.log "got xml" xml) of
-            Err e -> Debug.log (Debug.toString e) (model, Cmd.none)
+        Err _ -> (model, Cmd.none)
+        Ok xml -> case XD.run articleListParser xml of
+            Err _ -> (model, Cmd.none)
             Ok articles -> (articles, Cmd.none)
     MoveTo url -> (model, load url)
 
