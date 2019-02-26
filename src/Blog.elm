@@ -87,7 +87,7 @@ update msg model = case msg of
         Err _ -> (model, Cmd.none)
         Ok xml -> case XD.run articleListParser xml of
             Err _ -> (model, Cmd.none)
-            Ok articles -> (articles, Cmd.none)
+            Ok articles -> (List.take 5 articles, Cmd.none)
     MoveTo url -> (model, load url)
 
 
