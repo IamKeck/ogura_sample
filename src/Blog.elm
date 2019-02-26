@@ -64,17 +64,9 @@ articleListParser = XD.path ["entry"] (XD.list articleParser)
 getArticles : String -> Cmd Msg
 getArticles url = Http.get {url= url, expect=Http.expectString GotArticles }
 
-firstModel : List Article
-firstModel =
-    [ Article "テスト記事1" "http://www.google.com" "2018/10/1"
-    , Article "テスト記事2" "http://www.google.com" "2018/10/2"
-    , Article "テスト記事3" "http://www.google.com" "2018/10/3"
-    , Article "テスト記事4" "http://www.google.com" "2018/10/4"
-    ]
-
 init : Flag -> ( Model, Cmd Msg )
 init =
-    always ( firstModel, getArticles "https://oguranaoya.hatenablog.com/feed")
+    always ( [], getArticles "https://oguranaoya.hatenablog.com/feed")
 
 
 view : Model -> Html Msg
