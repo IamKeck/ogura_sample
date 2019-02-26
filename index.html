@@ -193,6 +193,18 @@
         speed: 1000
     });
     var app = Elm.Blog.init({node: document.getElementById("news"), flags: ""});
+    app.ports.sendXml.subscribe((xml)=>{
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xml, "application/xml");
+        const entries = doc.querySelectorAll("entry");
+        app.ports.gotParsedXml.send(Array.from(entries).map((entry)=>{
+            const title = entry.querySelector("title").textContent;
+            const url = entry.querySelector("link").getAttribute("href");
+            const date = entry.querySelector("published").textContent;
+            const obj = {title: title, url:url, date:date};
+            return obj;
+        }));
+    });
 </script>
 </body>
 </html>

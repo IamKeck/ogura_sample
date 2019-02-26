@@ -1,4 +1,4 @@
-module Blog exposing (Article, Flag, Model, Msg(..), init, main, subscriptions, update, view)
+port module Blog exposing (Article, Flag, Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser exposing (element)
 import Browser.Navigation exposing (load)
@@ -9,6 +9,8 @@ import Xml.Decode as XD
 import Http
 import Iso8601 exposing (toTime)
 import Time
+import Json.Encode as E
+import Json.Decode as D
 
 
 type alias Article =
@@ -16,7 +18,7 @@ type alias Article =
 
 
 type alias Model =
-    List Article
+    {articles : List Article, waitingXml : Bool }
 
 
 type alias Flag =
@@ -26,6 +28,7 @@ type alias Flag =
 type Msg
     = GotArticles (Result Http.Error String)
     | MoveTo String
+    | GotParsedXml E.Value
 
 -- TODO: UTC -> JST
 isoTimeToDate : String -> String
@@ -51,21 +54,25 @@ isoTimeToDate s = case toTime s of
         in
             y ++ "/" ++ m ++ "/" ++ d
 
-articleParser : XD.Decoder (Article)
-articleParser = XD.map3 Article
-    (XD.path ["title"] (XD.single XD.string))
-    (XD.path ["link"] (XD.index 0 <| XD.stringAttr "href"))
-    (XD.path ["published"] ( XD.single <| XD.map isoTimeToDate XD.string))
+articleParser : D.Decoder (Article)
+articleParser = D.map3 Article
+    (D.field "title" D.string)
+    (D.field "url" D.string)
+    (D.field "date" D.string |> D.map isoTimeToDate)
 
-articleListParser : XD.Decoder (List Article)
-articleListParser = XD.path ["entry"] (XD.list articleParser)
+articleListParser : D.Decoder (List Article)
+articleListParser = D.list articleParser
 
 getArticles : String -> Cmd Msg
 getArticles url = Http.get {url= url, expect=Http.expectString GotArticles }
 
+port sendXml : String -> Cmd msg
+port gotParsedXml : (E.Value ->  msg) -> Sub msg
+
+
 init : Flag -> ( Model, Cmd Msg )
 init =
-    always ( [], getArticles "https://oguranaoya.hatenablog.com/feed")
+    always ( Model [] False, getArticles "https://oguranaoya.hatenablog.com/feed")
 
 
 view : Model -> Html Msg
@@ -77,7 +84,7 @@ view model =
                 [ p [ class "date" ] [ text article.date ]
                 , p [ class "article" ] [ text article.title ]
                 ]
-            ) model
+            ) model.articles
         ]
 
 
@@ -85,16 +92,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model = case msg of
     GotArticles r -> case r of
         Err _ -> (model, Cmd.none)
-        Ok xml -> case XD.run articleListParser xml of
-            Err _ -> (model, Cmd.none)
-            Ok articles -> (List.take 5 articles, Cmd.none)
+        Ok xml -> ({model|waitingXml=True}, sendXml xml)
     MoveTo url -> (model, load url)
-
+    GotParsedXml v -> case D.decodeValue articleListParser v of
+        Err e -> Debug.log (D.errorToString e) ({model|waitingXml = False}, Cmd.none)
+        Ok articles -> (Model articles False, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions =
-    always Sub.none
+subscriptions m =
+    case m.waitingXml of
+        True -> gotParsedXml GotParsedXml
+        False -> Sub.none
 
 
 main =
