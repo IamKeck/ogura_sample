@@ -93,6 +93,7 @@
             background-color: transparent;
             height:130px;
             width:100px;
+            cursor: pointer;
         }
         #second_page{
             background-image: url("./background2.jpg");
@@ -144,10 +145,16 @@
 <script src="dist/blog.js"></script>
 <script>
     // smooth scroll https://github.com/cferdinandi/smooth-scroll
-    var scroll = new SmoothScroll('a[href*="#"]', {
-        speed: 1000
-    });
     var app = Elm.Blog.init({node: document.getElementById("news"), flags: ""});
+    app.ports.scrollToNextLive.subscribe(() => {
+        requestAnimationFrame(() => {
+            var scroll = new SmoothScroll();
+            scroll.animateScroll(
+                document.querySelector("#second_page"),
+                {speed: 1000}
+            );
+        });
+    });
     app.ports.sendXml.subscribe((xml)=>{
         const parser = new DOMParser();
         const doc = parser.parseFromString(xml, "application/xml");

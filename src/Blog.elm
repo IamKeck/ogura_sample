@@ -29,6 +29,7 @@ type Msg
     | GotNextLive (Result Http.Error String)
     | MoveTo String
     | GotParsedXml E.Value
+    | NextLiveClicked
 
 
 
@@ -120,6 +121,9 @@ getNextLive =
 port sendXml : String -> Cmd msg
 
 
+port scrollToNextLive : () -> Cmd msg
+
+
 port gotParsedXml : (E.Value -> msg) -> Sub msg
 
 
@@ -165,7 +169,7 @@ view model =
                                 model.articles
                         ]
                     ]
-                , a [ id "next_live", class "animated infinite bounce" ] []
+                , a [ id "next_live", class "animated infinite bounce", onClick NextLiveClicked ] []
                 ]
             , div [ id "second_page", class "page" ]
                 [ div [ id "live_article" ]
@@ -208,6 +212,9 @@ update msg model =
 
                 Ok articles ->
                     ( { model | articles = articles, waitingXml = False }, Cmd.none )
+
+        NextLiveClicked ->
+            ( model, scrollToNextLive () )
 
 
 subscriptions : Model -> Sub Msg
