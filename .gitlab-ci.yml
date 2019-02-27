@@ -6,7 +6,7 @@ build_and_deploy_job:
   before_script:
     # see https://docs.gitlab.com/ee/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - 'which nodejs || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which rsync || ( apt-get update -y && apt-get install rsync -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
