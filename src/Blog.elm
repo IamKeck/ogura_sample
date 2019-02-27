@@ -196,15 +196,15 @@ update msg model =
                     ( model, Cmd.none )
 
                 Ok nextLive ->
-                    Debug.log nextLive ( { model | nextLive = nextLive }, Cmd.none )
+                    ( { model | nextLive = nextLive }, Cmd.none )
 
         MoveTo url ->
             ( model, load url )
 
         GotParsedXml v ->
             case D.decodeValue articleListParser v of
-                Err e ->
-                    Debug.log (D.errorToString e) ( { model | waitingXml = False }, Cmd.none )
+                Err _ ->
+                    ( { model | waitingXml = False }, Cmd.none )
 
                 Ok articles ->
                     ( { model | articles = articles, waitingXml = False }, Cmd.none )
