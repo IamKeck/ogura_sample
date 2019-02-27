@@ -9,8 +9,8 @@ build_and_deploy_job:
     - npm install -D
     - npm run build
     - test -d ~/ogura_sample || mkdir ~/ogura_sample
-    - cp ./* ~/ogura_sample/
-    - cd ${DEST}
+    - cp -R ./* ~/ogura_sample/
+    - cd ~/ogura_sample
     - docker-compose up -d
   cache:
     paths:
