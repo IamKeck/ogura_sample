@@ -1,4 +1,4 @@
-port module Blog exposing (Article, Flag, Model, Msg(..), init, main, subscriptions, update, view)
+port module Blog exposing (Article, Flag, Model, Msg(..), articleListParser, articleParser, getArticles, getNextLive, gotParsedXml, init, isoTimeToDate, main, sendXml, subscriptions, update, view)
 
 import Browser exposing (Document, document)
 import Browser.Navigation exposing (load)
@@ -37,6 +37,10 @@ type Msg
 
 isoTimeToDate : String -> String
 isoTimeToDate s =
+    let
+        zone =
+            Time.customZone (9 * 60) []
+    in
     case toTime s of
         Err _ ->
             ""
@@ -44,10 +48,10 @@ isoTimeToDate s =
         Ok time ->
             let
                 y =
-                    Time.toYear Time.utc time |> String.fromInt
+                    Time.toYear zone time |> String.fromInt
 
                 m =
-                    case Time.toMonth Time.utc time of
+                    case Time.toMonth zone time of
                         Time.Jan ->
                             "1"
 
@@ -85,7 +89,7 @@ isoTimeToDate s =
                             "12"
 
                 d =
-                    Time.toDay Time.utc time |> String.fromInt
+                    Time.toDay zone time |> String.fromInt
             in
             y ++ "/" ++ m ++ "/" ++ d
 
