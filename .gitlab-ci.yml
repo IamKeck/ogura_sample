@@ -19,9 +19,5 @@ build_and_deploy_job:
     - npm run build
     - test -f next_live.txt && rm next_live.txt
     - rsync -avr --exclude "node_modules/" --exclude "elm-stuff/" --exclude ".git/" ./ ${DEPLOY_USER}@${DEPLOY_ADDRESS}:~/ogura_sample
-  cache:
-    paths:
-      - elm-stuff
-      - node_modules
   only:
     - master
