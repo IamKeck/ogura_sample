@@ -8,7 +8,10 @@ build_and_deploy_job:
   script:
     - npm install -D
     - npm run build
+    - test -d ${DEST} || mkdir ${DEST}
     - cp ./* ${DEST}/
+    - cd ${DEST}
+    - docker-compose up -d
   cache:
     paths:
       - elm-stuff
