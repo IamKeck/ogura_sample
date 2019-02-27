@@ -2,19 +2,21 @@ stages:
   - build_and_deploy
 
 build_and_deploy_job:
+  image: node:8-jessie
+  before_script:
+    # see https://docs.gitlab.com/ee/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which nodejs || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   stage: build_and_deploy
-  tags:
-    - ogura-staging
   script:
     - npm install -D
     - npm run build
-    - test -f ~/ogura_sample/next_live.txt && cp ~/ogura_sample/next_live.txt ./ || touch next_live.txt
-    - test -d ~/ogura_sample && rm -rf ~/ogura_sample
-    - mkdir ~/ogura_sample
-    - cp -R ./* ~/ogura_sample/
-    - cd ~/ogura_sample
-    - htpasswd -c -b .htpasswd ${AUTH_USER} ${AUTH_PASSWD}
-    - docker-compose up -d
+    - test -f next_live.txt && rm next_live.txt
+    - scp ./* ${DEPLOY_USER}@${DEPLOY_ADDRESS}:~/ogura_sample/
   cache:
     paths:
       - elm-stuff
