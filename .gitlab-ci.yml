@@ -8,8 +8,8 @@ build_and_deploy_job:
   script:
     - npm install -D
     - npm run build
-    - test -d ${DEST} || mkdir ${DEST}
-    - cp ./* ${DEST}/
+    - test -d ~/ogura_sample || mkdir ~/ogura_sample
+    - cp ./* ~/ogura_sample/
     - cd ${DEST}
     - docker-compose up -d
   cache:
