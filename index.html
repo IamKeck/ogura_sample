@@ -137,6 +137,19 @@
         .news_item {
             padding-bottom: 20px;
             cursor: pointer;
+            animation-name: flipIn;
+            animation-duration: 1.2s;
+            animation-timing-function: cubic-bezier(0.55, 0.06, 0.68, 0.19);
+        }
+        @keyframes flipIn {
+            0% {
+                opacity: 0;
+                transform: rotateX(-90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: rotateX(0deg);
+            }
         }
 
     </style>
