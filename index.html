@@ -32,14 +32,18 @@
             width:100vw;
 
         }
-        #global_menu{
-            display: flex;
-            justify-content: flex-end;
-            padding-right:30px;
+        #global_menu_outer{
             background-color: #2e4a5399;
             height: 6vh;
             font-size: 16px;
+            display: flex;
+            justify-content: center;
+        }
+        #global_menu{
+            display: flex;
+            justify-content: flex-end;
             font-weight: 800;
+            width: calc(100vh * calc(1920 / 1280));
         }
         #global_menu li{
             min-width: 100px;

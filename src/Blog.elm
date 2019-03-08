@@ -143,7 +143,8 @@ view model =
     let
         body =
             [ div [ id "background", class "page" ]
-                [ nav []
+                [ nav [] [
+                    div [id "global_menu_outer"] 
                     [ ul [ id "global_menu" ]
                         [ li [] [ text "HOME" ]
                         , li [] [ text "NEWS" ]
@@ -152,6 +153,7 @@ view model =
                         , li [] [ a [ href "https://oguranaoya.hatenablog.com/" ] [ text "BLOG" ] ]
                         , li [] [ text "DISCOGRAPHY" ]
                         ]
+                    ]
                     ]
                 , div [ id "title" ]
                     [ h2 [] [ text "JAZZ TRUMPET PLAYER" ]
