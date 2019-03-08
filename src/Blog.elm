@@ -92,8 +92,10 @@ isoTimeToDate s =
                 d =
                     Time.toDay zone time |> String.fromInt
             in
-            y ++ "/" ++ m ++ "/" ++ d
+            y ++ "/" ++ (zeroPadding 2 m) ++ "/" ++ (zeroPadding 2 d)
 
+zeroPadding : Int -> String -> String
+zeroPadding i = String.append (String.repeat (i - 1) "0") >> String.right i
 
 articleParser : D.Decoder Article
 articleParser =
