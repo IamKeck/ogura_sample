@@ -128,6 +128,8 @@ port scrollToNextLive : () -> Cmd msg
 
 port gotParsedXml : (E.Value -> msg) -> Sub msg
 
+port openUrlInNewWindow : String -> Cmd msg
+
 
 init : Flag -> ( Model, Cmd Msg )
 init =
@@ -207,7 +209,7 @@ update msg model =
                     ( { model | nextLive = nextLive }, Cmd.none )
 
         MoveTo url ->
-            ( model, load url )
+            ( model, openUrlInNewWindow url )
 
         GotParsedXml v ->
             case D.decodeValue articleListParser v of

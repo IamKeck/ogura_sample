@@ -175,6 +175,9 @@
             );
         });
     });
+    app.ports.openUrlInNewWindow.subscribe((url)=>{
+        window.open(url, "_blank");
+    });
     app.ports.sendXml.subscribe((xml)=>{
         const parser = new DOMParser();
         const doc = parser.parseFromString(xml, "application/xml");
