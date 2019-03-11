@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <title>Jazz Trumpet Player 小倉直也</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14/dist/smooth-scroll.polyfills.min.js"></script>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
     <link href="https://fonts.googleapis.com/css?family=Arimo:400,700|Noto+Sans+JP:400,900" rel="stylesheet">
+    <meta name="viewport" content="height=device-height,
+        initial-scale=1.0,
+        minimum-scale=1.0,
+        shrink-to-fit=no" >
     <style>
         /* image size: 1920 x 1280 */
         *{
@@ -30,8 +35,15 @@
             background-size: contain, auto;
             background-position:center, top left;
             height:100vh;
+            min-height:100vh;
             width:100vw;
 
+        }
+        #global_menu_sp_toggle{
+            display:none;
+        }
+        .global_menu_sp{
+            display:none;
         }
         #global_menu_outer{
             background-color: #2e4a5399;
@@ -157,6 +169,85 @@
             100% {
                 opacity: 1;
                 transform: rotateX(0deg);
+            }
+        }
+
+        @media screen and (max-width:1024px){
+            #background{
+                background-image: url("./background-sp.jpg"), url("./background-padding.png");
+            }
+            .global_menu_sp{
+                display: block;
+                height: 0;
+                position: absolute;
+                right: 0;
+                top: 50px;
+                z-index: 1000;
+                overflow: hidden;
+                transition-property: all;
+                transition-duration: 600ms;
+                transition-timing-function: ease-in;
+            }
+            .global_menu_sp li {
+                background: white;
+                color: black;
+                height: 35px;
+                text-align: center;
+                line-height: 35px;
+                cursor: pointer;
+                width: 145px;
+            }
+            .global_menu_sp li:hover {
+                background-color: deepskyblue;
+
+            }
+            .global_menu_sp_show{
+                height: 210px;
+            }
+            #global_menu_sp_toggle{
+                display:inline-block;
+                position:absolute;
+                top: 15px;
+                right: 20px;
+                font-size: 25px;
+            }
+            #global_menu_sp_show {
+                display: block;
+            }
+
+            #global_menu_outer{
+                display: none;
+            }
+            #title{
+                top: 8%;
+                left: 10%;
+            }
+            #title h2{
+                font-size: 2.7vh;
+            }
+            #title h1{
+                font-size: 5.3vh;
+            }
+            #news {
+                padding: 244px 0 20px;
+            }
+            .date {
+                display: block;
+            }
+            #next_live {
+                bottom: 4%;
+                right: 1%;
+            }
+            #second_page {
+                background-size: cover;
+            }
+            #live_article{
+                background-position: right 8px top 15px;
+                background-size: 100px;
+                overflow: scroll;
+            }
+            #live_article pre {
+                white-space:  pre-wrap;
             }
         }
 

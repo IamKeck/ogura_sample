@@ -2,8 +2,8 @@ port module Blog exposing (Article, Flag, Model, Msg(..), articleListParser, art
 
 import Browser exposing (Document, document)
 import Browser.Navigation exposing (load)
-import Html exposing (Html, a, div, h1, h2, li, nav, p, pre, text, ul)
-import Html.Attributes exposing (class, href, id)
+import Html exposing (Html, a, div, h1, h2, i, li, nav, p, pre, text, ul)
+import Html.Attributes exposing (class, classList, href, id)
 import Html.Events exposing (onClick)
 import Http
 import Iso8601 exposing (toTime)
@@ -17,7 +17,7 @@ type alias Article =
 
 
 type alias Model =
-    { articles : List Article, waitingXml : Bool, nextLive : String }
+    { articles : List Article, waitingXml : Bool, nextLive : String, showSpMenu : Bool }
 
 
 type alias Flag =
@@ -30,6 +30,7 @@ type Msg
     | MoveTo String
     | GotParsedXml E.Value
     | NextLiveClicked
+    | ToggleSpMenu
 
 
 
@@ -92,10 +93,13 @@ isoTimeToDate s =
                 d =
                     Time.toDay zone time |> String.fromInt
             in
-            y ++ "/" ++ (zeroPadding 2 m) ++ "/" ++ (zeroPadding 2 d)
+            y ++ "/" ++ zeroPadding 2 m ++ "/" ++ zeroPadding 2 d
+
 
 zeroPadding : Int -> String -> String
-zeroPadding i = String.append (String.repeat (i - 1) "0") >> String.right i
+zeroPadding i =
+    String.append (String.repeat (i - 1) "0") >> String.right i
+
 
 articleParser : D.Decoder Article
 articleParser =
@@ -128,13 +132,14 @@ port scrollToNextLive : () -> Cmd msg
 
 port gotParsedXml : (E.Value -> msg) -> Sub msg
 
+
 port openUrlInNewWindow : String -> Cmd msg
 
 
 init : Flag -> ( Model, Cmd Msg )
 init =
     always
-        ( Model [] False ""
+        ( Model [] False "" False
         , Cmd.batch
             [ getArticles "https://oguranaoya.hatenablog.com/feed"
             , getNextLive
@@ -147,9 +152,27 @@ view model =
     let
         body =
             [ div [ id "background", class "page" ]
-                [ nav [] [
-                    div [id "global_menu_outer"] 
-                    [ ul [ id "global_menu" ]
+                [ nav []
+                    [ div [ id "global_menu_outer" ]
+                        [ ul [ id "global_menu" ]
+                            [ li [] [ text "HOME" ]
+                            , li [] [ text "NEWS" ]
+                            , li [] [ text "ABOUT" ]
+                            , li [] [ text "CONTACT" ]
+                            , li [] [ a [ href "https://oguranaoya.hatenablog.com/" ] [ text "BLOG" ] ]
+                            , li [] [ text "DISCOGRAPHY" ]
+                            ]
+                        ]
+                    ]
+                , nav []
+                    [ div [ id "global_menu_sp_toggle", onClick ToggleSpMenu ]
+                        [ i [ class "fas fa-bars" ] [] ]
+                    , ul
+                        [ classList
+                            [ ( "global_menu_sp_show", model.showSpMenu )
+                            , ( "global_menu_sp", True )
+                            ]
+                        ]
                         [ li [] [ text "HOME" ]
                         , li [] [ text "NEWS" ]
                         , li [] [ text "ABOUT" ]
@@ -157,7 +180,6 @@ view model =
                         , li [] [ a [ href "https://oguranaoya.hatenablog.com/" ] [ text "BLOG" ] ]
                         , li [] [ text "DISCOGRAPHY" ]
                         ]
-                    ]
                     ]
                 , div [ id "title" ]
                     [ h2 [] [ text "JAZZ TRUMPET PLAYER" ]
@@ -221,6 +243,9 @@ update msg model =
 
         NextLiveClicked ->
             ( model, scrollToNextLive () )
+
+        ToggleSpMenu ->
+            ( { model | showSpMenu = not model.showSpMenu }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
