@@ -4,6 +4,7 @@ $desktop_background_horizontal: 1920;
 $desktop_background_ratio: $desktop_background_horizontal / $desktop_background_vertical;
 $desktop_show_width: calc(100vh * #{$desktop_background_ratio});
 $desktop_show_width_padding: calc(calc(100vw - #{$desktop_show_width}) / 2);
+
 $base_font: "Noto Sans JP";
 
 @mixin media_query {
@@ -30,6 +31,9 @@ a {
   background-image: url("/background.jpg"), url("/background-padding.png");
   @include media_query {
     background-image: url("/background-sp.jpg"), url("/background-padding.png");
+    background-size: auto 100vh;
+    display: flex;
+    justify-content: center;
   }
 
 }
@@ -224,6 +228,7 @@ a {
   padding-bottom: 20px;
   @include media_query {
     padding: 30vh 0 20px;
+    font-size: 2vh;
   }
 }
 
