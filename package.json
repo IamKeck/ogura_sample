@@ -6,7 +6,7 @@
   "scripts": {
     "test": "elm-test",
     "build_dev": "elm make src/Blog.elm --output dist/blog.js",
-    "build_css": "sass style.scss style.css",
+    "build_css": "sass style.scss dist/style.css",
     "build": "elm make src/Blog.elm --output dist/blog.js --optimize && npm run build_css",
     "format": "elm-format --yes src/",
     "watch": "watch \"elm-format --yes src/\" src/"
