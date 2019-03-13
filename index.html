@@ -16,10 +16,23 @@
     <link rel="stylesheet" href="/dist/style.css">
 </head>
 <body>
+<script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
 <script src="dist/blog.js"></script>
 <script>
+    // Initialize Firebase
+    const config = {
+        apiKey: "AIzaSyDMOAjIDYqnjIYnn6lct-aMNruZkuFLmMU",
+        authDomain: "ogura-web.firebaseapp.com",
+        databaseURL: "https://ogura-web.firebaseio.com",
+        projectId: "ogura-web",
+        storageBucket: "ogura-web.appspot.com",
+        messagingSenderId: "989127659790"
+    };
+    firebase.initializeApp(config);
+    const db = firebase.database();
+    const allData = db.ref("/");
     // smooth scroll https://github.com/cferdinandi/smooth-scroll
-    var app = Elm.Blog.init({node: document.getElementById("news"), flags: ""});
+    var app = Elm.Blog.init({node: document.getElementById("news"), flags: document.domain });
     app.ports.scrollToNextLive.subscribe(() => {
         requestAnimationFrame(() => {
             var scroll = new SmoothScroll();
@@ -32,6 +45,11 @@
     app.ports.openUrlInNewWindow.subscribe((url)=>{
         window.open(url, "_blank");
     });
+
+    allData.on("value", (snapshot) =>{
+        app.ports.dbUpdated.send(snapshot.val());
+    });
+
     app.ports.sendXml.subscribe((xml)=>{
         const parser = new DOMParser();
         const doc = parser.parseFromString(xml, "application/xml");

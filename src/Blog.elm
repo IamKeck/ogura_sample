@@ -1,4 +1,4 @@
-port module Blog exposing (Article, Flag, Model, Msg(..), articleListParser, articleParser, getArticles, getNextLive, gotParsedXml, init, isoTimeToDate, main, sendXml, subscriptions, update, view)
+port module Blog exposing (Article, Environment(..), Flag, Model, Msg(..), articleListParser, articleParser, determineEnvFromDomain, getArticles, getNextLive, gotParsedXml, init, isoTimeToDate, main, sendXml, subscriptions, update, view)
 
 import Browser exposing (Document, document)
 import Browser.Navigation exposing (load)
@@ -17,11 +17,22 @@ type alias Article =
 
 
 type alias Model =
-    { articles : List Article, waitingXml : Bool, nextLive : String, showSpMenu : Bool }
+    { articles : List Article
+    , waitingXml : Bool
+    , nextLive : String
+    , showSpMenu : Bool
+    , env : Environment
+    }
+
+
+type alias FirebaseData =
+    { staging : String
+    , production : String
+    }
 
 
 type alias Flag =
-    ()
+    String
 
 
 type Msg
@@ -31,10 +42,13 @@ type Msg
     | GotParsedXml E.Value
     | NextLiveClicked
     | ToggleSpMenu
+    | DbUpdated FirebaseData
 
 
-
--- TODO: UTC -> JST
+type Environment
+    = Local
+    | Staging
+    | Production
 
 
 isoTimeToDate : String -> String
@@ -96,6 +110,23 @@ isoTimeToDate s =
             y ++ "/" ++ zeroPadding 2 m ++ "/" ++ zeroPadding 2 d
 
 
+determineEnvFromDomain : String -> Environment
+determineEnvFromDomain d =
+    if d == "127.0.0.1" then
+        Local
+
+    else if String.toList d |> List.all (predOr (\a -> a == '.') Char.isDigit) then
+        Staging
+
+    else
+        Production
+
+
+predOr : (a -> Bool) -> (a -> Bool) -> (a -> Bool)
+predOr fa fb =
+    \a -> fa a || fb a
+
+
 zeroPadding : Int -> String -> String
 zeroPadding i =
     String.append (String.repeat (i - 1) "0") >> String.right i
@@ -119,11 +150,6 @@ getArticles url =
     Http.get { url = url, expect = Http.expectString GotArticles }
 
 
-getNextLive : Cmd Msg
-getNextLive =
-    Http.get { url = "/next_live.txt", expect = Http.expectString GotNextLive }
-
-
 port sendXml : String -> Cmd msg
 
 
@@ -136,15 +162,16 @@ port gotParsedXml : (E.Value -> msg) -> Sub msg
 port openUrlInNewWindow : String -> Cmd msg
 
 
+port dbUpdated : (FirebaseData -> msg) -> Sub msg
+
+
 init : Flag -> ( Model, Cmd Msg )
-init =
-    always
-        ( Model [] False "" False
-        , Cmd.batch
-            [ getArticles "https://oguranaoya.hatenablog.com/feed"
-            , getNextLive
-            ]
-        )
+init domain =
+    ( Model [] False "" False <| determineEnvFromDomain domain
+    , Cmd.batch
+        [ getArticles "https://oguranaoya.hatenablog.com/feed"
+        ]
+    )
 
 
 view : Model -> Document Msg
@@ -247,15 +274,27 @@ update msg model =
         ToggleSpMenu ->
             ( { model | showSpMenu = not model.showSpMenu }, Cmd.none )
 
+        DbUpdated dbData ->
+            let
+                newNextLive =
+                    case model.env of
+                        Production ->
+                            dbData.production
+
+                        _ ->
+                            dbData.staging
+            in
+            ( { model | nextLive = newNextLive }, Cmd.none )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions m =
     case m.waitingXml of
         True ->
-            gotParsedXml GotParsedXml
+            Sub.batch [ dbUpdated DbUpdated, gotParsedXml GotParsedXml ]
 
         False ->
-            Sub.none
+            dbUpdated DbUpdated
 
 
 main =
