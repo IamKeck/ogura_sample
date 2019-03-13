@@ -1,4 +1,4 @@
-port module Blog exposing (Article, Environment(..), Flag, Model, Msg(..), articleListParser, articleParser, determineEnvFromDomain, getArticles, getNextLive, gotParsedXml, init, isoTimeToDate, main, sendXml, subscriptions, update, view)
+port module Blog exposing (Article, Environment(..), Flag, Model, Msg(..), articleListParser, articleParser, determineEnvFromDomain, getArticles, gotParsedXml, init, isoTimeToDate, main, sendXml, subscriptions, update, view)
 
 import Browser exposing (Document, document)
 import Browser.Navigation exposing (load)
