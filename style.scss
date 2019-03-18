@@ -4,6 +4,9 @@ $desktop_background_horizontal: 1920;
 $desktop_background_ratio: $desktop_background_horizontal / $desktop_background_vertical;
 $desktop_show_width: calc(100vh * #{$desktop_background_ratio});
 $desktop_show_width_padding: calc(calc(100vw - #{$desktop_show_width}) / 2);
+$sp_menu_height: 45;
+$sp_menu_element_num: 6;
+$sp_menu_border_width: 1;
 
 $base_font: "Noto Sans JP";
 
@@ -71,18 +74,24 @@ a {
     transition-property: all;
     transition-duration: 600ms;
     transition-timing-function: ease-in;
+    border-radius: 10px;
+
 
     li {
-      background: white;
-      color: black;
-      height: 35px;
+      background-color: #234a53cc;
+      border-bottom: #{$sp_menu_border_width}px solid;
+      color: white;
+      height: #{$sp_menu_height}px;
       text-align: center;
-      line-height: 35px;
+      line-height: #{$sp_menu_height}px;
       cursor: pointer;
       width: 145px;
 
       &:hover {
         background-color: deepskyblue;
+      }
+      &:last-child {
+        border: none;
       }
     }
   }
@@ -268,6 +277,6 @@ a {
 }
 
 .global_menu_sp_show {
-  height: 210px;
+  height: #{$sp_menu_height * $sp_menu_element_num + $sp_menu_border_width * ($sp_menu_element_num - 1)}px;
   display: block;
 }
