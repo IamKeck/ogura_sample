@@ -234,7 +234,7 @@ a {
 
 #news {
   padding-top: 30px;
-  padding-left: 55px;
+  padding-left: 15px;
   padding-bottom: 20px;
   @include media_query {
     padding: 30vh 0 20px;
@@ -244,6 +244,8 @@ a {
 
 .whats_new {
   padding-bottom: 25px;
+  font-style: italic;
+  font-size: 110%;
 }
 
 .date {
