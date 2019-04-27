@@ -31,7 +31,7 @@ a {
 }
 
 #background {
-  background-image: url("/background.jpg"), url("/background-padding.png");
+  background-image: url("/background.png"), url("/background-padding.png");
   @include media_query {
     background-image: url("/background-sp.jpg"), url("/background-padding.png");
     background-size: auto 100vh;
