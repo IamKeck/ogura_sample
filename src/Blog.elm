@@ -218,7 +218,7 @@ view model =
                                 (\article ->
                                     li [ class "news_item", onClick <| MoveTo article.url ]
                                         [ p [ class "date" ] [ text article.date ]
-                                        , p [ class "article" ] [ text article.title ]
+                                        , p [ class "article" ] [ text <| "ブログ更新しました" ]
                                         ]
                                 )
                                 model.articles
