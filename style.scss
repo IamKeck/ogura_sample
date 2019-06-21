@@ -237,7 +237,7 @@ a {
   padding-left: 15px;
   padding-bottom: 20px;
   @include media_query {
-    padding: 30vh 0 20px;
+    padding: 30vh 5vh 20px;
     font-size: 2vh;
   }
 }

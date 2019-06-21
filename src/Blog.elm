@@ -218,7 +218,7 @@ view model =
                                 (\article ->
                                     li [ class "news_item", onClick <| MoveTo article.url ]
                                         [ p [ class "date" ] [ text article.date ]
-                                        , p [ class "article" ] [ text <| "ブログ更新しました" ]
+                                        , p [ class "article" ] [ text <| makeBlogTitle article ]
                                         ]
                                 )
                                 model.articles
@@ -234,6 +234,9 @@ view model =
 
         title =
             "Jazz Trumpet Player 小倉直也"
+
+        makeBlogTitle article =
+            "ブログ更新しました【" ++ article.title ++ "】"
     in
     Document title body
 
