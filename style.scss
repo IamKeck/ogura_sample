@@ -242,6 +242,11 @@ a {
   }
 }
 
+.news_list {
+  max-height: 135px;
+  overflow-y: scroll;
+}
+
 .whats_new {
   padding-bottom: 25px;
   font-style: italic;

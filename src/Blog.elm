@@ -213,7 +213,7 @@ view model =
                     , h1 [] [ text "NAOYA OGURA" ]
                     , div [ id "news" ]
                         [ p [ class "whats_new" ] [ text "What's New?" ]
-                        , ul [] <|
+                        , ul [ class "news_list" ] <|
                             List.map
                                 (\article ->
                                     li [ class "news_item", onClick <| MoveTo article.url ]
